@@ -4,6 +4,8 @@ var td1 = document.getElementById("td1");
 var td1_score = document.getElementById("td1_score");
 var number;
 var answer;
+var strike = 0;
+var ball = 0;
 
 function makeanswer(){
     number = [1,2,3,4,5,6,7,8,9];
@@ -20,11 +22,23 @@ console.log(answer);
 
 form.addEventListener('submit',function(e){
     e.preventDefault();
-    answer = answer.join('');
-    td1.innerHTML = input.value
-    console.log(input.value);
-    console.log(answer);
-    if (input.value === answer) {
-        td1_score.textContent = "홈런!"
-    } 
-})
+    td1.innerHTML = input.value;
+    answer_st = answer.join('');
+
+    if (input.value === answer_st) {
+            td1_score.textContent = "홈런!"
+        } else {
+            for (var i = 0; i < 4 ; i++){
+                if (answer_st.indexOf(input.value[i])>-1){
+                    if( i === answer_st.indexOf(input.value[i])){
+                        strike += 1;
+                } else {
+                        ball += 1;
+                    }
+            }
+        
+    }
+}      
+td1_score.textContent = "strike :" + strike + " ball :" + ball;
+
+} )
