@@ -23,22 +23,20 @@ console.log(answer);
 form.addEventListener('submit',function(e){
     e.preventDefault();
     td1.innerHTML = input.value;
-    answer_st = answer.join('');
-
     if (input.value === answer_st) {
-            td1_score.textContent = "홈런!"
+        td1_score.textContent = "홈런!"
         } else {
             for (var i = 0; i < 4 ; i++){
-                if (answer_st.indexOf(input.value[i])>-1){
-                    if( i === answer_st.indexOf(input.value[i])){
-                        strike += 1;
-                } else {
+                if (Number(input.value[i]) === answer[i] ){
+                    strike += 1;
+                }
+                else if (answer_st.indexOf(input.value[i])>-1) {
                         ball += 1;
                     }
             }
-        
-    }
-}      
-td1_score.textContent = "strike :" + strike + " ball :" + ball;
-
+            td1_score.textContent = "strike : " + strike + " ball : " + ball;
+            }
+input.value = '';
 } )
+
+
