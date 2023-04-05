@@ -1,30 +1,33 @@
 var form = document.getElementById("form");
 var input = document.getElementById("input");
-var td1 = document.getElementById("td1");
-var td1_score = document.getElementById("td1_score");
+var tdList = document.querySelectorAll("[id^='td']")
+var tdScoreList = document.querySelectorAll("[id^='tscore']")
+var result = document.getElementById("result");
+
+
 var number;
 var answer;
-var strike = 0;
-var ball = 0;
 
-function makeanswer(){
+var submitCount = 0;
+
+function makeAnswer(){
     number = [1,2,3,4,5,6,7,8,9];
     answer = [];
     for(var i = 0; i < 4; i++){
-    var choice = number.splice(Math.floor(Math.random() * (9-i)),1);
-    answer.push(choice[0])
+        var choice = number.splice(Math.floor(Math.random() * (9-i)),1);
+        answer.push(choice[0])
     }
 };
 
-makeanswer();
-console.log(number);
-console.log(answer);
-
-form.addEventListener('submit',function(e){
-    e.preventDefault();
-    td1.innerHTML = input.value;
+function start(td, td_score) {
+    var strike = 0;
+    var ball = 0;
+    td.innerHTML = input.value;
     if (input.value === answer_st) {
-        td1_score.textContent = "홈런!"
+        td_score.textContent = "Home Run!";
+        result.textContent = "성공하였습니다!"
+        input.disabled = true;
+        
         } else {
             for (var i = 0; i < 4 ; i++){
                 if (Number(input.value[i]) === answer[i] ){
@@ -34,9 +37,23 @@ form.addEventListener('submit',function(e){
                         ball += 1;
                     }
             }
-            td1_score.textContent = "strike : " + strike + " ball : " + ball;
-            }
-input.value = '';
-} )
+            td_score.textContent = "strike : " + strike + " ball : " + ball;
+        }
+    input.value="";
+}
 
+makeAnswer();
+console.log(number);
+console.log(answer);
 
+answer_st = answer.join('');
+
+form.addEventListener('submit', function(e) {
+    e.preventDefault();
+    start(tdList[submitCount],tdScoreList[submitCount])
+    submitCount ++;
+    if (submitCount === 9){
+        input.disabled = true;
+        result.textContent = "실패하였습니다. 정답은 " + answer_st + " 입니다"
+    }
+    });
